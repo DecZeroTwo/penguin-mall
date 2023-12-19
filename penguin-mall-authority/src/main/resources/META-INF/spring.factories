@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.wnhz.older.authority.config.BmsMvcConfig,\
+com.wnhz.older.authority.interceptor.AuthorityInterceptor,\
+com.wnhz.older.authority.interceptor.BlackListInterceptor

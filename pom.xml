@@ -21,9 +21,9 @@
         <module>penguin-mall-ware</module>
         <module>penguin-mall-exception</module>
         <module>penguin-mall-cache</module>
-        <module>penguin-mall-authority</module>
         <module>penguin-mall-gateway</module>
         <module>penguin-mall-mq</module>
+        <module>penguin-mall-authority</module>
     </modules>
 
     <parent>
