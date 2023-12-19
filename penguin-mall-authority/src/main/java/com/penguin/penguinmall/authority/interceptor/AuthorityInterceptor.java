@@ -1,13 +1,14 @@
-package com.wnhz.older.authority.interceptor;
+package com.penguin.penguinmall.authority.interceptor;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.wnhz.older.authority.annotation.BmsRole;
-import com.wnhz.older.exception.authority.InvalidTokenException;
-import com.wnhz.older.exception.authority.PermissionDeniedException;
+
+import com.penguin.penguinmall.authority.annotation.BmsRole;
+import com.penguin.penguinmall.exception.authority.InvalidTokenException;
+import com.penguin.penguinmall.exception.authority.PermissionDeniedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,7 +20,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -72,30 +72,13 @@ public class AuthorityInterceptor implements HandlerInterceptor {
         }
 
         String roleId = decodedJWT.getClaim("roleId").asString();
-        String requestURI = request.getRequestURI();
-        if (requestURI.contains(".html")) {
-            if (roleId.equals("1")&&requestURI.contains("admin")){
-                return true;
-            }else if (roleId.equals("2")&&requestURI.contains("userManage")){
-                return true;
-            }else if (roleId.equals("3")&&requestURI.contains("shopManage")){
-                return true;
-            }else if (roleId.equals("4")&&requestURI.contains("older")){
-                return true;
-            }else if (roleId.equals("5")&&requestURI.contains("offspring")){
-                return true;
-            }else {
-                response.sendRedirect("http://localhost:9099/PerInsufficient.html");
-                return false;
-            }
-        }
+
         HandlerMethod method = (HandlerMethod) handler;
         BmsRole bmsRole = method.getMethodAnnotation(BmsRole.class);
         String requiredRolId = bmsRole.value();
         if (!requiredRolId.equals("0") && !requiredRolId.contains(roleId)) {
             throw new PermissionDeniedException("您没有足够的权限");
         }
-
         return true;
     }
 }

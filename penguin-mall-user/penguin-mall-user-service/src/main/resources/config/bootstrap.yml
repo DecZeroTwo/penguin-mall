@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: ssc-cloud-older
+  #nacos配置
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.100.128:7777
+        namespace: ssc-cloud-id
+        file-extension: yaml
+        shared-configs:
+          - data-id: db_ssc.yaml
+            group: DEV
+            refresh: true
+          - data-id: mbatisplus.yaml
+            group: DEV
+            refresh: true
+      discovery:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+        namespace: ${spring.cloud.nacos.config.namespace}
+        group: DEV

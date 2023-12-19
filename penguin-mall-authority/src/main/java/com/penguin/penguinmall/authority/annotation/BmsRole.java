@@ -1,4 +1,4 @@
-package com.wnhz.older.authority.annotation;
+package com.penguin.penguinmall.authority.annotation;
 
 import java.lang.annotation.*;
 
