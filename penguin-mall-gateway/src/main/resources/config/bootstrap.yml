@@ -1,0 +1,35 @@
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: ssc-cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.201.81:7777
+        namespace: ssc-cloud-id
+        group: DEV
+        register-enabled: true
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id : ssc-order-id               #路由编号(自定义)
+#          uri: https://www.bilibili.com/   #跳转地址(网页跳转)，lb--负载调整（微服务）
+          uri: lb://ssc-cloud-older
+          predicates:
+            - Path=/ssc-older/**       #url 的映射名称(让客户看到的)
+          filters:
+            - StripPrefix=1
+        - id: ssc-paycenter-id               #路由编号(自定义)
+          uri: lb://ssc-cloud-paycenter
+          predicates:
+            - Path=/ssc-pay/**
+          filters:
+            - StripPrefix=1
+
+

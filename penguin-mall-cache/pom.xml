@@ -9,9 +9,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.penguin.penguinmall.product</groupId>
-    <artifactId>penguin-mall-product</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.penguin.penguinmall.cache</groupId>
+    <artifactId>penguin-mall-cache</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,7 +19,22 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.24.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.redisson</groupId>
+                    <artifactId>redisson-spring-data-31</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-data-26</artifactId>
+            <version>3.24.3</version>
+        </dependency>
     </dependencies>
 
 </project>

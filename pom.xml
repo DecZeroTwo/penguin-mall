@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.penguin.penguimall</groupId>
+    <groupId>com.penguin.penguinmall</groupId>
     <artifactId>penguin-mall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -13,6 +13,17 @@
     <description>springcloud的电商平台</description>
     <modules>
         <module>penguin-mall-product</module>
+        <module>penguin-mall-common</module>
+        <module>penguin-mall-domain</module>
+        <module>penguin-mall-coupon</module>
+        <module>penguin-mall-user</module>
+        <module>penguin-mall-order</module>
+        <module>penguin-mall-ware</module>
+        <module>penguin-mall-exception</module>
+        <module>penguin-mall-cache</module>
+        <module>penguin-mall-authority</module>
+        <module>penguin-mall-gateway</module>
+        <module>penguin-mall-mq</module>
     </modules>
 
     <parent>
