@@ -20,18 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.penguin.penguinmall.common</groupId>
-            <artifactId>penguin-mall-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.penguin.penguinmall.domain</groupId>
-            <artifactId>penguin-mall-domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.penguin.penguinmall.authority</groupId>
-            <artifactId>penguin-mall-authority</artifactId>
+            <groupId>com.penguin.penguinmall.mq</groupId>
+            <artifactId>penguin-mall-mq</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

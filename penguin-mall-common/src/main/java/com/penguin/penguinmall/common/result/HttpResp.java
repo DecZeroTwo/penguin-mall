@@ -15,8 +15,6 @@ public class HttpResp<T> {
     private String msg;
     private T result;
     private Date time;
-    private String ip;
-    private int port;
 
     public static <T> HttpResp<T> success(T result){
         HttpResp<T> httpResp = new HttpResp<>();
@@ -27,14 +25,12 @@ public class HttpResp<T> {
         return httpResp;
     }
 
-    public static <T> HttpResp<T> failed(T result,Object ... values){
+    public static <T> HttpResp<T> failed(T result){
         HttpResp<T> httpResp = new HttpResp<>();
         httpResp.code=RespCode.FAILED.getCode();
         httpResp.msg = RespCode.FAILED.getMsg();
         httpResp.result = result;
         httpResp.time = new Date();
-        httpResp.ip =(String)values[0];
-        httpResp.port =(int) values[1];
         return httpResp;
     }
     public static <T> HttpResp<T> failed(String msg){

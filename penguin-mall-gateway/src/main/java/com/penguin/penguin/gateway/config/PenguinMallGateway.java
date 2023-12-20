@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-public class SscGlobalGateway implements GlobalFilter, Ordered {
+public class PenguinMallGateway implements GlobalFilter, Ordered {
 
     @SneakyThrows
     @Override
@@ -35,7 +36,7 @@ public class SscGlobalGateway implements GlobalFilter, Ordered {
                     objectMapper.writeValueAsString(
                             HttpResp.failed("用户未登录,禁止访问"))
                             .getBytes(StandardCharsets.UTF_8));
-
+            response.getHeaders().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
             return response.writeWith(Mono.just(dataBuffer));
         }
         return chain.filter(exchange);

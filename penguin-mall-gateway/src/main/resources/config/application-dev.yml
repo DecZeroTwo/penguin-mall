@@ -1,5 +1,5 @@
 server:
-  port: 22222
+  port: 33333
 logging:
   level:
-    com.wnhz: debug
+    com.penguin.penguinmall: debug

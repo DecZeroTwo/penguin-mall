@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -14,6 +17,8 @@ import lombok.Data;
  */
 @TableName(value ="ums_user_tab")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     /**
      * 
@@ -25,13 +30,13 @@ public class User implements Serializable {
      * 
      */
     @TableField(value = "user_username")
-    private String userUsername;
+    private String username;
 
     /**
      * 
      */
     @TableField(value = "user_password")
-    private String userPassword;
+    private String password;
 
     /**
      * 
@@ -43,13 +48,13 @@ public class User implements Serializable {
      * 
      */
     @TableField(value = "user_update_time")
-    private Date userUpdateTime;
+    private Date updateTime;
 
     /**
      * 
      */
     @TableField(value = "user_create_time")
-    private Date userCreateTime;
+    private Date createTime;
 
     /**
      * 1系统管理员 2用户管理员 3商城管理员 4老人 5子女
@@ -62,7 +67,4 @@ public class User implements Serializable {
      */
     @TableField(value = "user_state")
     private Integer userState;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

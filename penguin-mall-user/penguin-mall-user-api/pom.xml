@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.penguin.penguinmall</groupId>
-        <artifactId>penguin-mall</artifactId>
+        <groupId>com.penguin.penguinmall.user</groupId>
+        <artifactId>penguin-mall-user</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.penguin.penguinmall.cache</groupId>
-    <artifactId>penguin-mall-cache</artifactId>
+    <artifactId>penguin-mall-user-api</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,14 +19,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-actuator</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 

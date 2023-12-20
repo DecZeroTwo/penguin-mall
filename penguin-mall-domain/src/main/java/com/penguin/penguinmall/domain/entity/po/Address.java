@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 会员收货地址
@@ -13,6 +16,8 @@ import lombok.Data;
  */
 @TableName(value ="ums_address_tab")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address implements Serializable {
     /**
      * id
@@ -79,7 +84,4 @@ public class Address implements Serializable {
      */
     @TableField(value = "default_status")
     private Integer defaultStatus;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

@@ -1,18 +1,24 @@
 spring:
   application:
-    name: ssc-cloud-older
+    name: penguin-mall-user
   #nacos配置
   cloud:
     nacos:
       config:
         server-addr: 192.168.100.128:7777
-        namespace: ssc-cloud-id
+        namespace: penguin-mall-id
         file-extension: yaml
         shared-configs:
-          - data-id: db_ssc.yaml
+          - data-id: penguin_ums_db.yaml
             group: DEV
             refresh: true
           - data-id: mbatisplus.yaml
+            group: DEV
+            refresh: true
+          - data-id: redis.yaml
+            group: DEV
+            refresh: true
+          - data-id: rabbit.yaml
             group: DEV
             refresh: true
       discovery:
