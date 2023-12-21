@@ -1,6 +1,7 @@
 package com.penguin.penguinmall.user.feign;
 
 import com.penguin.penguinmall.common.result.HttpResp;
+import com.penguin.penguinmall.domain.entity.po.User;
 import com.penguin.penguinmall.domain.entity.vo.UserRegisterVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @FeignClient(value = "penguin-mall-user")
 public interface IUserFeign {
     @GetMapping("/api/user/login")
-    HttpResp<String> login(HttpServletRequest request, HttpServletResponse response, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha") String captcha, @RequestParam("vCodeId") String vCodeId);
+    HttpResp<User> login(HttpServletRequest request, HttpServletResponse response, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha") String captcha, @RequestParam("vCodeId") String vCodeId);
 
     @GetMapping("/api/user/logOut")
     HttpResp<String> logOut(@RequestParam("userId") Long userId, HttpServletRequest request);

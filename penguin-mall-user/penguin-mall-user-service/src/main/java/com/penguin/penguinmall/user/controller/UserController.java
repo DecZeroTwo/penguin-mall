@@ -36,7 +36,7 @@ public class UserController {
 
     @ApiOperation(value = "login", notes = "用户登录")
     @GetMapping("/login")
-    public HttpResp login(HttpServletRequest request, HttpServletResponse response, String username, String password, String captcha) {
+    public HttpResp<User> login(HttpServletRequest request, HttpServletResponse response, String username, String password, String captcha) {
         String vCodeId = request.getHeader("vCodeId");
         User user = ius.login(username, password, captcha, vCodeId);
         String salt = MD5.create().digestHex(username + ":" + password);
@@ -63,7 +63,7 @@ public class UserController {
         response.addHeader("token", token);
         response.addHeader("Access-Control-Expose-Headers", "token");
 
-        return HttpResp.success("登录成功");
+        return HttpResp.success(user);
     }
 
     @ApiOperation(value = "logOut", notes = "用户退出")
@@ -80,7 +80,7 @@ public class UserController {
     @PostMapping("/registry")
     public HttpResp registry(HttpServletRequest request, HttpServletResponse response, @RequestBody UserRegisterVo user) {
         String emailCaptchaId = request.getHeader("emailCaptchaId");
-        ius.register(user,emailCaptchaId);
+        //ius.register(user,emailCaptchaId);
         return HttpResp.success("注册完成");
     }
 

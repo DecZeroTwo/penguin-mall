@@ -95,33 +95,32 @@ export default {
             let _this = this;
             _this.$refs.loginForm.validate(valid => {
                 if (valid) {
-                    console.log(localStorage.getItem('vCodeId'));
-                    $request.get('http://localhost:33333/penguin-mall-user/api/user/login', {
-                        params: {
-                            username: _this.loginForm.username,
-                            password: _this.loginForm.password,
-                            captcha: _this.loginForm.captcha,
-                        }
-                    }, {
-                        headers: {
-                            vCodeId: localStorage.getItem('vCodeId')
-                        }
-                    })
-                        .then(function (response) {
-                            if (response.data.code == 2000) {
-                                localStorage.setItem('token', response.headers.get('token'));
-                                if (response.data.result.userRole == 0) {
-                                    console.log(0);
-                                } else if (response.data.result.userRole == 1) {
-                                    console.log(0);
-                                }
-                            } else {
-                                _this.failMsg(response.data.result)
+                    $request.get('http://localhost:33333/penguin-mall-user/api/user/login',
+                        {
+                            params: {
+                                username: _this.loginForm.username,
+                                password: _this.loginForm.password,
+                                captcha: _this.loginForm.captcha,
+                            },
+                            headers: {
+                                'vCodeId': localStorage.getItem('vCodeId')
                             }
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        });
+                        },
+                    ).then(function (response) {
+                        if (response.data.code == 2000) {
+                            localStorage.setItem('token', response.headers.get('token'));
+                            console.log(response.data);
+                            if (response.data.result.userRole == 1) {
+                                console.log(1);
+                            } else if (response.data.result.userRole == 2) {
+                                console.log(2);
+                            }
+                        } else {
+                            _this.failMsg(response.data.result)
+                        }
+                    }).catch(e => {
+                        console.log(e)
+                    });
                 }
             });
         },
