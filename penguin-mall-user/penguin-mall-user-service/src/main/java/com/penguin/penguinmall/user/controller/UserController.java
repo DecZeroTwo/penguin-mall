@@ -1,6 +1,8 @@
 package com.penguin.penguinmall.user.controller;
 
 import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import cn.hutool.crypto.digest.MD5;
 import cn.hutool.extra.mail.MailUtil;
 import com.auth0.jwt.JWT;
@@ -17,13 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Api(tags = "用户模块")
@@ -38,9 +36,9 @@ public class UserController {
 
     @ApiOperation(value = "login", notes = "用户登录")
     @GetMapping("/login")
-    public HttpResp login(HttpServletResponse response, String username, String password, String captcha, String vCodeId) {
+    public HttpResp login(HttpServletRequest request, HttpServletResponse response, String username, String password, String captcha) {
+        String vCodeId = request.getHeader("vCodeId");
         User user = ius.login(username, password, captcha, vCodeId);
-
         String salt = MD5.create().digestHex(username + ":" + password);
 
         String token = JWT.create().withClaim("username", username)
@@ -62,36 +60,27 @@ public class UserController {
             stringRedisTemplate.expire(key, 60, TimeUnit.MINUTES);
         }
 
-        Cookie tokenCookie = new Cookie("token", token);
-        tokenCookie.setPath("/");
-        response.addCookie(tokenCookie);
+        response.addHeader("token", token);
+        response.addHeader("Access-Control-Expose-Headers", "token");
 
         return HttpResp.success("登录成功");
     }
 
     @ApiOperation(value = "logOut", notes = "用户退出")
     @GetMapping("/logOut")
-    public HttpResp<String> logOut(Long userId, HttpServletRequest request, HttpServletResponse response) {
-        Cookie token = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                token = cookie;
-            }
-        }
-        stringRedisTemplate.delete(token.getValue());
+    public HttpResp<String> logOut(Long userId, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        stringRedisTemplate.delete(token);
         stringRedisTemplate.delete("user:" + userId);
-        token.setMaxAge(0);
-        token.setPath("/");
-        response.addCookie(token);
         return HttpResp.success("退出成功");
     }
 
 
-    @ApiOperation(value = "register", notes = "用户注册")
-    @PostMapping("/register")
-    public HttpResp register(UserRegisterVo user) {
-        ius.register(user);
+    @ApiOperation(value = "registry", notes = "用户注册")
+    @PostMapping("/registry")
+    public HttpResp registry(HttpServletRequest request, HttpServletResponse response, @RequestBody UserRegisterVo user) {
+        String emailCaptchaId = request.getHeader("emailCaptchaId");
+        ius.register(user,emailCaptchaId);
         return HttpResp.success("注册完成");
     }
 
@@ -101,10 +90,10 @@ public class UserController {
         LineCaptcha lineCaptcha = new LineCaptcha(200, 100);
         String code = lineCaptcha.getCode();
         String imageBase64Data = lineCaptcha.getImageBase64Data();
-        String browserId = UUID.randomUUID().toString();
-        Cookie vCodeId = new Cookie("vCodeId", browserId);
-        vCodeId.setPath("/");
-        response.addCookie(vCodeId);
+        Snowflake snowflake = new Snowflake();
+        String browserId = snowflake.nextIdStr();
+        response.addHeader("vCodeId", browserId);
+        response.addHeader("Access-Control-Expose-Headers", "vCodeId");
         stringRedisTemplate.opsForValue().set(browserId, code);
         stringRedisTemplate.expire(browserId, 60, TimeUnit.SECONDS);
         return HttpResp.success(imageBase64Data);
@@ -115,12 +104,12 @@ public class UserController {
     public HttpResp<String> emailCaptcha(HttpServletResponse response, String email) {
         LineCaptcha lineCaptcha = new LineCaptcha(200, 100);
         String code = lineCaptcha.getCode();
-        String browserId = UUID.randomUUID().toString();
-        Cookie emailCaptcha = new Cookie("emailCaptcha", browserId);
-        emailCaptcha.setPath("/");
-        response.addCookie(emailCaptcha);
+        Snowflake snowflake = new Snowflake();
+        String emailCaptchaId = snowflake.nextIdStr();
+        response.addHeader("emailCaptchaId", emailCaptchaId);
+        response.addHeader("Access-Control-Expose-Headers", "emailCaptchaId");
         MailUtil.send(email, "注册验证码", code, false);
-        stringRedisTemplate.opsForValue().set(browserId, code, 60, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(emailCaptchaId, code, 60, TimeUnit.SECONDS);
         System.out.println(HttpResp.success("验证码发送成功"));
         return HttpResp.success("验证码发送成功");
     }

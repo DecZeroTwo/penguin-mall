@@ -17,7 +17,7 @@ public class BmsMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(authorityInterceptor)
                 .addPathPatterns("/api/**","*.html")
                 .excludePathPatterns("/api/user/login",
-                        "/api/user/register",
+                        "/api/user/registry",
                         "/api/user/captcha",
                         "/api/user/emailCaptcha");
     }

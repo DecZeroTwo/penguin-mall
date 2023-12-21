@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -101,10 +102,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void register(UserRegisterVo user) {
-        user.setPassword(MD5.create().digestHex(user.getPassword()));
-        String browserEmailCaptcha = stringRedisTemplate.opsForValue().get(user.getBrowserId());
-
+    public void register(UserRegisterVo user,String emailCaptchaId) {
+        String browserEmailCaptcha = stringRedisTemplate.opsForValue().get(emailCaptchaId);
         if (!browserEmailCaptcha.equals(user.getEmailCaptcha())) {
             throw new EmailCaptchaException("邮箱验证码错误");
         }
@@ -118,10 +117,10 @@ public class UserServiceImpl implements IUserService {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername, username);
         User dupName = userDao.selectOne(queryWrapper);
-        if (Objects.isNull(dupName)) {
+        if (Objects.nonNull(dupName)) {
             throw new DupNameException("用户重名");
         }
-
+        user.setPassword(MD5.create().digestHex(user.getPassword()));
         rabbitTemplate.convertAndSend(RabbitMQConfig.PENGUINMALL_REGISTRY_QUEUE, user);
     }
 

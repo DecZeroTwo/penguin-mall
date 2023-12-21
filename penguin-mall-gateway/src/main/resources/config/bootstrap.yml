@@ -24,5 +24,14 @@ spring:
             - Path=/penguinmall/**       #url 的映射名称(让客户看到的)
           filters:
             - StripPrefix=1
-
+      globalcors:
+        # 支持浏览器CORS preflight options请求
+        add-to-simple-url-handler-mapping: true
+        # 具体跨域配置
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: '*'
+            allowedMethods: '*'
+            allowedHeaders: '*'
+            allowCredentials: true
 

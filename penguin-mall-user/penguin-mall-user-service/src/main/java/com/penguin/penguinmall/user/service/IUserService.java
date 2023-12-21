@@ -19,7 +19,7 @@ public interface IUserService {
     User login(String username, String password, String captcha, String vCodeId);
 
 
-    void register(UserRegisterVo user);
+    void register(UserRegisterVo user,String browserEmailCaptcha);
 
     void registerUser(User user, Message message, Channel channel) throws IOException;
 }

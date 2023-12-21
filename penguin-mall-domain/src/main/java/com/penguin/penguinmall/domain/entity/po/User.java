@@ -57,7 +57,7 @@ public class User implements Serializable {
     private Date createTime;
 
     /**
-     * 1系统管理员 2用户管理员 3商城管理员 4老人 5子女
+     * 1系统管理员 2用户
      */
     @TableField(value = "user_role")
     private Long userRole;

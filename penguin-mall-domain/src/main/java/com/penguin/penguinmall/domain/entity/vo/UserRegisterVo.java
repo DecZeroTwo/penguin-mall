@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRegisterVo extends User {
     private String emailCaptcha;
-    private String browserId;
 }

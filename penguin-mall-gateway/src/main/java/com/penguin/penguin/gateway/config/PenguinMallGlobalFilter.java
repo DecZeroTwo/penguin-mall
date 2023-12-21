@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-public class PenguinMallGateway implements GlobalFilter, Ordered {
+public class PenguinMallGlobalFilter implements GlobalFilter, Ordered {
 
     @SneakyThrows
     @Override
@@ -28,13 +28,16 @@ public class PenguinMallGateway implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         log.debug("我进入过滤中.....");
+        if (request.getPath().toString().contains("/user")) {
+            return chain.filter(exchange);
+        }
         ObjectMapper objectMapper = new ObjectMapper();
-        DataBuffer dataBuffer=null;
+        DataBuffer dataBuffer = null;
 
-        if(Objects.isNull(request.getCookies().get("token"))){
-            dataBuffer= response.bufferFactory().wrap(
+        if (Objects.isNull(request.getCookies().get("token"))) {
+            dataBuffer = response.bufferFactory().wrap(
                     objectMapper.writeValueAsString(
-                            HttpResp.failed("用户未登录,禁止访问"))
+                                    HttpResp.failed("用户未登录,禁止访问"))
                             .getBytes(StandardCharsets.UTF_8));
             response.getHeaders().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
             return response.writeWith(Mono.just(dataBuffer));

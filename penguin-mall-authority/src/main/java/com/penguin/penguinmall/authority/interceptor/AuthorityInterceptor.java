@@ -20,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -75,8 +76,11 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 
         HandlerMethod method = (HandlerMethod) handler;
         BmsRole bmsRole = method.getMethodAnnotation(BmsRole.class);
+        if (Objects.isNull(bmsRole)) {
+            return true;
+        }
         String requiredRolId = bmsRole.value();
-        if (!requiredRolId.equals("0") && !requiredRolId.contains(roleId)) {
+        if (!requiredRolId.contains(roleId)) {
             throw new PermissionDeniedException("您没有足够的权限");
         }
         return true;
