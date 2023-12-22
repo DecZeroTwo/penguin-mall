@@ -95,14 +95,12 @@ export default {
             let _this = this;
             _this.$refs.loginForm.validate(valid => {
                 if (valid) {
-                    console.log(localStorage.getItem('vCodeId'));
-                    $request.get('http://localhost:33333/penguin-mall-user/api/user/login', {
+                    $request.get('http://localhost:33333/penguinmall-ums/api/user/login', {
                         params: {
                             username: _this.loginForm.username,
                             password: _this.loginForm.password,
                             captcha: _this.loginForm.captcha,
-                        }
-                    }, {
+                        },
                         headers: {
                             vCodeId: localStorage.getItem('vCodeId')
                         }
@@ -110,10 +108,10 @@ export default {
                         .then(function (response) {
                             if (response.data.code == 2000) {
                                 localStorage.setItem('token', response.headers.get('token'));
-                                if (response.data.result.userRole == 0) {
-                                    console.log(0);
-                                } else if (response.data.result.userRole == 1) {
-                                    console.log(0);
+                                if (response.data.result == 1) {
+                                    console.log(1);
+                                } else if (response.data.result == 2) {
+                                    console.log(2);
                                 }
                             } else {
                                 _this.failMsg(response.data.result)
@@ -127,7 +125,7 @@ export default {
         },
         sendEmailCaptcha() {
             let _this = this
-            $request.get('http://localhost:33333/penguin-mall-user/api/user/emailCaptcha', {
+            $request.get('http://localhost:33333/penguinmall-ums/api/user/emailCaptcha', {
                 params: {
                     email: _this.registryForm.email
                 },
@@ -150,7 +148,7 @@ export default {
             _this.$refs.registryForm.validate(valid => {
                 if (valid) {
                     // 处理注册逻辑
-                    $request.post('http://localhost:33333/penguin-mall-user/api/user/registry',
+                    $request.post('http://localhost:33333/penguinmall-ums/api/user/registry',
                         _this.registryForm,
                         {
                             headers: {
@@ -174,7 +172,7 @@ export default {
         refreshCaptcha() {
             let _this = this;
             // 刷新验证码图片
-            $request.get('http://localhost:33333/penguin-mall-user/api/user/captcha')
+            $request.get('http://localhost:33333/penguinmall-ums/api/user/captcha')
                 .then(function (response) {
                     _this.captchaImage = response.data.result;
                     localStorage.setItem('vCodeId', response.headers.get('vCodeId'))

@@ -1,6 +1,6 @@
 package com.penguin.penguinmall.domain.entity.vo;
 
-import com.penguin.penguinmall.domain.entity.po.User;
+import com.penguin.penguinmall.domain.entity.po.ums.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

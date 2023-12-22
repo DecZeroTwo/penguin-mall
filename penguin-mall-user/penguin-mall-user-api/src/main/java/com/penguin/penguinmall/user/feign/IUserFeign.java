@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @FeignClient(value = "penguin-mall-user")
 public interface IUserFeign {
     @GetMapping("/api/user/login")
-    HttpResp<String> login(HttpServletRequest request, HttpServletResponse response, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha") String captcha, @RequestParam("vCodeId") String vCodeId);
+    HttpResp<Long> login(HttpServletRequest request, HttpServletResponse response, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha") String captcha, @RequestParam("vCodeId") String vCodeId);
 
     @GetMapping("/api/user/logOut")
     HttpResp<String> logOut(@RequestParam("userId") Long userId, HttpServletRequest request);
