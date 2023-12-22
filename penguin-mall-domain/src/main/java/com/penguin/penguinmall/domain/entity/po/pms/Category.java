@@ -1,9 +1,7 @@
 package com.penguin.penguinmall.domain.entity.po.pms;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,9 +9,10 @@ import lombok.Data;
 
 /**
  * 商品三级分类
+ *
  * @TableName pms_category
  */
-@TableName(value ="pms_category")
+@TableName(value = "pms_category")
 @Data
 public class Category implements Serializable {
     /**
@@ -44,6 +43,7 @@ public class Category implements Serializable {
      * 是否显示[0-不显示，1显示]
      */
     @TableField(value = "show_status")
+    @TableLogic(value = "1", delval = "0")
     private Integer showStatus;
 
     /**
