@@ -18,10 +18,16 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: penguin-mall-gateway              #路由编号(自定义)
+        - id: user_rout              #路由编号(自定义)
           uri: lb://penguin-mall-user     #跳转地址(网页跳转)，lb--负载调整（微服务）
           predicates:
-            - Path=/penguinmall/**       #url 的映射名称(让客户看到的)
+            - Path=/penguinmall-ums/**       #url 的映射名称(让客户看到的)
+          filters:
+            - StripPrefix=1
+        - id: product_rout
+          uri: lb://penguin-mall-product
+          predicates:
+            - Path=/penguimall-pms/**
           filters:
             - StripPrefix=1
       globalcors:

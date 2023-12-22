@@ -1,4 +1,4 @@
-package com.penguin.penguinmall.domain.entity.po;
+package com.penguin.penguinmall.domain.entity.po.ums;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

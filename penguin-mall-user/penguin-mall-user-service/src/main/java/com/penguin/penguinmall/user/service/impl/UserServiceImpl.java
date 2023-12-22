@@ -3,7 +3,7 @@ package com.penguin.penguinmall.user.service.impl;
 import cn.hutool.crypto.digest.MD5;
 import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.penguin.penguinmall.domain.entity.po.User;
+import com.penguin.penguinmall.domain.entity.po.ums.User;
 import com.penguin.penguinmall.domain.entity.vo.UserRegisterVo;
 import com.penguin.penguinmall.exception.user.*;
 import com.penguin.penguinmall.mq.config.RabbitMQConfig;
@@ -14,7 +14,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -71,8 +69,9 @@ public class UserServiceImpl implements IUserService {
         }
 
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper();
+        String val = MD5.create().digestHex(password);
         queryWrapper.eq(User::getUsername, username)
-                .eq(User::getPassword, MD5.create().digestHex(password))
+                .eq(User::getPassword, val)
                 .ne(User::getUserState, -1);
         User user = userDao.selectOne(queryWrapper);
 

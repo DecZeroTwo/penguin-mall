@@ -1,13 +1,11 @@
 package com.penguin.penguinmall.user.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.penguin.penguinmall.domain.entity.po.User;
+import com.penguin.penguinmall.domain.entity.po.ums.User;
 import com.penguin.penguinmall.domain.entity.vo.UserRegisterVo;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface IUserService {
 

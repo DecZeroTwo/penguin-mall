@@ -2,14 +2,12 @@ package com.penguin.penguinmall.user.controller;
 
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import cn.hutool.crypto.digest.MD5;
 import cn.hutool.extra.mail.MailUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.penguin.penguinmall.authority.annotation.BmsRole;
 import com.penguin.penguinmall.common.result.HttpResp;
-import com.penguin.penguinmall.domain.entity.po.User;
+import com.penguin.penguinmall.domain.entity.po.ums.User;
 import com.penguin.penguinmall.domain.entity.vo.UserRegisterVo;
 import com.penguin.penguinmall.user.service.IUserService;
 import io.swagger.annotations.Api;
@@ -25,9 +23,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Api(tags = "用户模块")
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
-@Slf4j
 public class UserController {
     @Autowired
     private IUserService ius;
@@ -36,7 +34,7 @@ public class UserController {
 
     @ApiOperation(value = "login", notes = "用户登录")
     @GetMapping("/login")
-    public HttpResp<User> login(HttpServletRequest request, HttpServletResponse response, String username, String password, String captcha) {
+    public HttpResp<Long> login(HttpServletRequest request, HttpServletResponse response, String username, String password, String captcha) {
         String vCodeId = request.getHeader("vCodeId");
         User user = ius.login(username, password, captcha, vCodeId);
         String salt = MD5.create().digestHex(username + ":" + password);
@@ -54,16 +52,16 @@ public class UserController {
             String oldToken = stringRedisTemplate.opsForValue().get(key);
             stringRedisTemplate.delete(oldToken);
             stringRedisTemplate.opsForValue().set(key, token);
-            stringRedisTemplate.expire(key, 60, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(key, 120, TimeUnit.MINUTES);
         } else {
             stringRedisTemplate.opsForValue().set(key, token);
-            stringRedisTemplate.expire(key, 60, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(key, 120, TimeUnit.MINUTES);
         }
 
         response.addHeader("token", token);
         response.addHeader("Access-Control-Expose-Headers", "token");
 
-        return HttpResp.success(user);
+        return HttpResp.success(user.getUserRole());
     }
 
     @ApiOperation(value = "logOut", notes = "用户退出")
@@ -80,7 +78,7 @@ public class UserController {
     @PostMapping("/registry")
     public HttpResp registry(HttpServletRequest request, HttpServletResponse response, @RequestBody UserRegisterVo user) {
         String emailCaptchaId = request.getHeader("emailCaptchaId");
-        //ius.register(user,emailCaptchaId);
+        ius.register(user, emailCaptchaId);
         return HttpResp.success("注册完成");
     }
 
