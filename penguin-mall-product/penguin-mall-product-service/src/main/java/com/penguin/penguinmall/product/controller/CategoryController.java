@@ -15,7 +15,7 @@ import java.util.List;
 @Api(tags = "商品模块")
 @Slf4j
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/category")
 public class CategoryController {
     @Autowired
     private CategoryService ics;
