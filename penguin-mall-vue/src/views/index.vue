@@ -202,16 +202,6 @@ export default {
 </script>
 
 <style>
-body {
-    /* 使用线性渐变背景 */
-    background: linear-gradient(to bottom, white, white, white, cornflowerblue);
-    /* 设置渐变方向和颜色起始点和结束点 */
-    /* to bottom 表示从上到下的渐变方向 */
-    /* #FF5733 是渐变的起始颜色，#FFBD33 是结束颜色 */
-    /* 你可以根据需要调整颜色值和渐变方向 */
-    /* 其他样式设置 */
-}
-
 .auth-container {
     display: flex;
     justify-content: center;

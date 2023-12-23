@@ -27,10 +27,16 @@ public class CategoryController {
         return HttpResp.success(list);
     }
 
-    @ApiOperation(value = "delete", notes = "逻辑删除分类")
+    @ApiOperation(value = "save", notes = "新增分类")
+    @PostMapping("/save")
+    public HttpResp save(@RequestBody Category category) {
+        boolean save = ics.save(category);
+        return HttpResp.success(save);
+    }
 
+    @ApiOperation(value = "delete", notes = "逻辑删除分类")
     @DeleteMapping("/delete")
-    public HttpResp delete(@RequestBody Long[] catIds){
+    public HttpResp delete(@RequestBody Long[] catIds) {
         ics.removeMenuByIds(Arrays.asList(catIds));
         return HttpResp.success("删除成功");
     }
