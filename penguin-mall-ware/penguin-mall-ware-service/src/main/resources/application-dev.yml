@@ -1,0 +1,9 @@
+server:
+  port: 30004
+
+logging:
+  level:
+    com.penguin.penguinmall: debug
+
+knife4j:
+  enable: true

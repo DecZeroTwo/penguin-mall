@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-switch v-model="draggable" active-text="开启拖拽" inactive-text="关闭拖拽"></el-switch>
-    <el-button v-if="draggable" @click="batchSave">批量保存</el-button>
     <el-button type="danger" @click="batchDelete">批量删除</el-button>
     <el-tree :data="menus" :props="defaultProps" :expand-on-click-node="false" show-checkbox node-key="catId"
       :default-expanded-keys="expandedKey" :draggable="draggable" :allow-drop="allowDrop" @node-drop="handleDrop"
@@ -108,25 +106,6 @@ export default {
         })
         .catch(() => { });
     },
-    batchSave() {
-      this.$request({
-        url: this.$request.adornUrl("/product/category/update/sort"),
-        method: "post",
-        data: this.$request.adornData(this.updateNodes, false)
-      }).then(() => {
-        this.$message({
-          message: "菜单顺序等修改成功",
-          type: "success"
-        });
-        //刷新出新的菜单
-        this.getMenus();
-        //设置需要默认展开的菜单
-        this.expandedKey = this.pCid;
-        this.updateNodes = [];
-        this.maxLevel = 0;
-        // this.pCid = 0;
-      });
-    },
     handleDrop(draggingNode, dropNode, dropType) {
       console.log("handleDrop: ", draggingNode, dropNode, dropType);
       //1、当前节点最新的父节点id
@@ -220,27 +199,29 @@ export default {
       this.dialogVisible = true;
 
       //发送请求获取当前节点最新的数据
-      this.$request({
-        url: this.$request.adornUrl(`/product/category/info/${data.catId}`),
-        method: "get"
-      }).then(({ data }) => {
-        //请求成功
-        console.log("要回显的数据", data);
-        this.category.name = data.data.name;
-        this.category.catId = data.data.catId;
-        this.category.icon = data.data.icon;
-        this.category.productUnit = data.data.productUnit;
-        this.category.parentCid = data.data.parentCid;
-        this.category.catLevel = data.data.catLevel;
-        this.category.sort = data.data.sort;
-        this.category.showStatus = data.data.showStatus;
-        /**
-         *         parentCid: 0,
-        catLevel: 0,
-        showStatus: 1,
-        sort: 0,
-         */
-      });
+      $request.get('http://localhost:33333/penguimall-pms/api/category/info', {
+        params: {
+          catId: data.catId
+        },
+      })
+        .then(({ data }) => {
+          //请求成功
+          console.log("要回显的数据", data);
+          this.category.name = data.result.name;
+          this.category.catId = data.result.catId;
+          this.category.icon = data.result.icon;
+          this.category.productUnit = data.result.productUnit;
+          this.category.parentCid = data.result.parentCid;
+          this.category.catLevel = data.result.catLevel;
+          this.category.sort = data.result.sort;
+          this.category.showStatus = data.result.showStatus;
+          /**
+           *         parentCid: 0,
+          catLevel: 0,
+          showStatus: 1,
+          sort: 0,
+           */
+        });
     },
     append(data) {
       console.log("append", data);
@@ -268,22 +249,20 @@ export default {
     //修改三级分类数据
     editCategory() {
       var { catId, name, icon, productUnit } = this.category;
-      this.$request({
-        url: this.$request.adornUrl("/product/category/update"),
-        method: "post",
-        data: this.$request.adornData({ catId, name, icon, productUnit }, false)
-      }).then(() => {
-        this.$message({
-          message: "菜单修改成功",
-          type: "success"
+      $request.put('http://localhost:33333/penguimall-pms/api/category/update',
+        { catId, name, icon, productUnit })
+        .then(() => {
+          this.$message({
+            message: "菜单修改成功",
+            type: "success"
+          });
+          //关闭对话框
+          this.dialogVisible = false;
+          //刷新出新的菜单
+          this.getMenus();
+          //设置需要默认展开的菜单
+          this.expandedKey = [this.category.parentCid];
         });
-        //关闭对话框
-        this.dialogVisible = false;
-        //刷新出新的菜单
-        this.getMenus();
-        //设置需要默认展开的菜单
-        this.expandedKey = [this.category.parentCid];
-      });
     },
     //添加三级分类
     addCategory() {

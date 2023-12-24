@@ -14,11 +14,11 @@ public class BmsMvcConfig implements WebMvcConfigurer {
     private AuthorityInterceptor authorityInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorityInterceptor)
-                .addPathPatterns("/api/**","*.html")
-                .excludePathPatterns("/api/user/login",
-                        "/api/user/registry",
-                        "/api/user/captcha",
-                        "/api/user/emailCaptcha");
+//        registry.addInterceptor(authorityInterceptor)
+//                .addPathPatterns("/api/**","*.html")
+//                .excludePathPatterns("/api/user/login",
+//                        "/api/user/registry",
+//                        "/api/user/captcha",
+//                        "/api/user/emailCaptcha");
     }
 }

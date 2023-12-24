@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: penguin-mall-order
+  #nacos配置
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.100.128:7777
+        namespace: penguin-mall-id
+        file-extension: yaml
+        shared-configs:
+          - data-id: penguin_oms_db.yaml
+            group: DEV
+            refresh: true
+          - data-id: mbatisplus.yaml
+            group: DEV
+            refresh: true
+          - data-id: redis.yaml
+            group: DEV
+            refresh: true
+          - data-id: rabbit.yaml
+            group: DEV
+            refresh: true
+      discovery:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+        namespace: ${spring.cloud.nacos.config.namespace}
+        group: DEV

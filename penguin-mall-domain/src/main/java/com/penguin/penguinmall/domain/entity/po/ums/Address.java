@@ -28,8 +28,8 @@ public class Address implements Serializable {
     /**
      * member_id
      */
-    @TableField(value = "member_id")
-    private Long memberId;
+    @TableField(value = "user_id")
+    private Long userId;
 
     /**
      * 收货人姓名

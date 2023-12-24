@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.penguin.penguinmall.domain.entity.po.pms.Category;
 import com.penguin.penguinmall.domain.entity.po.pms.CategoryBrandRelation;
-import com.penguin.penguinmall.product.service.CategoryBrandRelationService;
 import com.penguin.penguinmall.product.service.CategoryService;
 import com.penguin.penguinmall.product.dao.CategoryMapper;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,9 +23,6 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
         implements CategoryService {
-
-    @Resource
-    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public List<Category> tree() {
@@ -45,15 +43,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
 
     @Override
     public void removeMenuByIds(List<Long> asList) {
-        List<CategoryBrandRelation> categoryBrandRelation =
-                categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelation>().in("catelog_id", asList));
-
-        if (categoryBrandRelation.size() == 0) {
             //逻辑删除
             baseMapper.deleteBatchIds(asList);
-        } else {
-            throw new RuntimeException("该菜单下面还有属性，无法删除!");
-        }
     }
 }
 

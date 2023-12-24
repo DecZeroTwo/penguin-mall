@@ -82,5 +82,8 @@ public class SkuInfo implements Serializable {
     private Long saleCount;
 
     @TableField(exist = false)
+    private Boolean select;
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

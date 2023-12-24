@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.penguin.penguinmall.product</groupId>
-        <artifactId>penguin-mall-product</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>com.penguin.penguinmall.order</groupId>
+        <artifactId>penguin-mall-order</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.penguin.penguinmall.product.service</groupId>
-    <artifactId>penguin-mall-product-service</artifactId>
+    <groupId>com.penguin.penguinmall.order.service</groupId>
+    <artifactId>penguin-mall-order-service</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -50,10 +50,31 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-all</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-spring-boot-starter</artifactId>
+            <version>1.6.1</version>
         </dependency>
     </dependencies>
+
 </project>
