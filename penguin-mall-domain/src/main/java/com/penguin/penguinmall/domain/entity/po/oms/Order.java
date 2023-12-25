@@ -25,13 +25,13 @@ public class Order implements Serializable {
     /**
      * 收货人电话
      */
-    @TableId(value = "receiver_phone")
+    @TableField(value = "receiver_phone")
     private String receiverPhone;
 
     /**
      * 省份/直辖市
      */
-    @TableId(value = "receiver_province")
+    @TableField(value = "receiver_province")
     private String receiverProvince;
 
     /**

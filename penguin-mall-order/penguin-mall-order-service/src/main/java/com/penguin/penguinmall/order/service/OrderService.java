@@ -18,4 +18,6 @@ public interface OrderService extends IService<Order> {
     OrderConfirmVo confirmOrder(Long userId);
 
     void submit(Address address, List<SkuInfo> skuInfoList);
+
+    public void finishOrder(Long orderSn);
 }

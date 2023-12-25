@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * sku信息
@@ -14,6 +17,8 @@ import lombok.Data;
  */
 @TableName(value ="pms_sku_info")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SkuInfo implements Serializable {
     /**
      * skuId
@@ -83,7 +88,4 @@ public class SkuInfo implements Serializable {
 
     @TableField(exist = false)
     private Boolean select;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

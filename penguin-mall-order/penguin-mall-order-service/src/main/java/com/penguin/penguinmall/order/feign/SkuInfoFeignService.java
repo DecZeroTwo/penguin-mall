@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SkuInfoFeignService {
     @GetMapping(value = "/api/skuInfo/get")
     HttpResp<SkuInfo> getSkuInfo(@RequestParam("skuId") Long skuId);
+
+    @GetMapping(value = "/api/cart/getSelect")
+    HttpResp getCart(@RequestParam("userId") Long userId);
 }

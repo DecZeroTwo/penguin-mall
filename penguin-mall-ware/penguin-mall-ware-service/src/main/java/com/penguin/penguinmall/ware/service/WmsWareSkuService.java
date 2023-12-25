@@ -10,4 +10,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface WmsWareSkuService extends IService<WmsWareSku> {
 
+    void decrease(Long skuId,Integer num);
 }

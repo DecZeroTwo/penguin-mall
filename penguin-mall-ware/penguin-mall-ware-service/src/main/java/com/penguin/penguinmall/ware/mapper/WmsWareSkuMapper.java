@@ -2,6 +2,7 @@ package com.penguin.penguinmall.ware.mapper;
 
 import com.penguin.penguinmall.domain.entity.po.oms.WmsWareSku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author 19654
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2023-12-25 02:48:02
 * @Entity com.penguin.penguinmall.domain.entity.po.oms.WmsWareSku
 */
+@Mapper
 public interface WmsWareSkuMapper extends BaseMapper<WmsWareSku> {
 
 }
